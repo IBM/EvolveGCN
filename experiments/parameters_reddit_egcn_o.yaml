@@ -1,0 +1,73 @@
+data: reddit
+
+reddit_args:
+  folder: ./data/reddit
+  title_edges_file: soc-redditHyperlinks-title.tsv
+  body_edges_file: soc-redditHyperlinks-body.tsv
+  nodes_file: web-redditEmbeddings-subreddits.csv
+  aggr_time: 7 #number of days
+
+use_cuda: True
+use_logfile: True
+
+model: egcn_o
+
+task: edge_cls
+
+class_weights: [ 0.9, 0.1]
+use_2_hot_node_feats: False
+use_1_hot_node_feats: False
+save_node_embeddings: False
+
+train_proportion: 0.71 # with train_proportion: 0.715 we have the 70/30% of actual splits on the 50 timesteps
+dev_proportion: 0.1
+
+num_epochs: 500 #number of passes though the data
+steps_accum_gradients: 1
+learning_rate: 0.085167092
+learning_rate_min: 0.0005
+learning_rate_max: 0.1
+negative_mult_training: 20
+negative_mult_test: 100
+smart_neg_sampling: False
+seed: 1234
+target_measure: F1 # measure to define the best epoch F1, Precision, Recall, MRR, MAP
+target_class: 0 # Target class to get the measure to define the best epoch (all, 0, 1)
+early_stop_patience: 50
+
+
+eval_after_epochs: 1
+adj_mat_time_window: 10  # Time window to create the adj matrix for each timestep. Use None to use all the history (from 0 to t)
+# adj_mat_time_window_min: 1
+# adj_mat_time_window_max: 10
+num_hist_steps: 10 # number of previous steps used for prediction
+num_hist_steps_min: 3 # only used if num_hist_steps: None
+num_hist_steps_max: 10 # only used if num_hist_steps: None
+
+data_loading_params:
+  batch_size: 1
+  num_workers: 8
+
+gcn_parameters:
+  feats_per_node: 100
+  feats_per_node_min: 100
+  feats_per_node_max: 256
+  layer_1_feats: 152
+  layer_1_feats_min: 10
+  layer_1_feats_max: 200
+  layer_2_feats: 20
+  layer_2_feats_same_as_l1: True
+  k_top_grcu: 200
+  num_layers: 2
+  lstm_l1_layers: 1
+  lstm_l1_feats: 35 # only used with sp_lstm_B_trainer
+  lstm_l1_feats_min: 10
+  lstm_l1_feats_max: 100
+  lstm_l2_layers: 1 # only used with both sp_lstm_A_trainer and sp_lstm_B_trainer
+  lstm_l2_feats: None # only used with both sp_lstm_A_trainer and sp_lstm_B_trainer
+  lstm_l2_feats_same_as_l1: True
+  cls_feats: 147 # Hidden size of the classifier
+  cls_feats_min: 100
+  cls_feats_max: 512
+comments:
+  - comments

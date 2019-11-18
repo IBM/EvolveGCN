@@ -1,0 +1,71 @@
+data: bitcoinalpha  # bitcoinalpha bitcoinotc
+
+bitcoinalpha_args:
+  folder: ./data/
+  edges_file: soc-sign-bitcoinalpha.csv
+  aggr_time: 1200000 #three weeks in seconds: 1200000
+  feats_per_node: 3
+
+use_cuda: True
+use_logfile: True
+
+model: egcn_o
+
+task: link_pred
+
+class_weights: [ 0.05, 0.95]
+use_2_hot_node_feats: False
+use_1_hot_node_feats: True
+save_node_embeddings: False
+
+train_proportion: 0.7 # with train_proportion: 0.715 we have the 70/30% of actual splits on the 50 timesteps
+dev_proportion: 0.1
+
+num_epochs: 500 #number of passes though the data
+steps_accum_gradients: 1
+learning_rate: 0.005
+learning_rate_min: 0.005
+learning_rate_max: 0.05
+negative_mult_training: 100
+negative_mult_test: 100
+smart_neg_sampling: True
+seed: 1234
+target_measure: MAP # measure to define the best epoch F1, Precision, Recall, MRR, MAP, Loss
+target_class: 1 # Target class to get the measure to define the best epoch (all, 0, 1)
+early_stop_patience: 50
+
+eval_after_epochs: 5
+adj_mat_time_window: 1  # Time window to create the adj matrix for each timestep. Use None to use all the history (from 0 to t)
+# adj_mat_time_window_min: 1
+# adj_mat_time_window_max: 10
+num_hist_steps: 10 # number of previous steps used for prediction
+num_hist_steps_min: 3 # only used if num_hist_steps: None
+num_hist_steps_max: 10 # only used if num_hist_steps: None
+
+data_loading_params:
+  batch_size: 1
+  num_workers: 8
+
+gcn_parameters:
+  feats_per_node: 100
+  feats_per_node_min: 50
+  feats_per_node_max: 256
+  layer_1_feats: 100
+  layer_1_feats_min: 21
+  layer_1_feats_max: 200
+  layer_2_feats: 30
+  layer_2_feats_same_as_l1: True
+  k_top_grcu: 200
+  num_layers: 2
+  lstm_l1_layers: 1
+  lstm_l1_feats: 100 # only used with sp_lstm_B_trainer
+  lstm_l1_feats_min: 20
+  lstm_l1_feats_max: 200
+  lstm_l2_layers: 1 # only used with both sp_lstm_A_trainer and sp_lstm_B_trainer
+  lstm_l2_feats: None # only used with both sp_lstm_A_trainer and sp_lstm_B_trainer
+  lstm_l2_feats_same_as_l1: True
+  cls_feats: 400 # Hidden size of the classifier
+  cls_feats_min: 51
+  cls_feats_max: 500
+comments:
+  - comments
