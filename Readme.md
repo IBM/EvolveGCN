@@ -13,7 +13,7 @@ This repository contains the code for [EvolveGCN: Evolving Graph Convolutional N
 - uc_irvine: Downloadable from http://konect.uni-koblenz.de/networks/opsahl-ucsocial
 - autonomous systems: Downloadable from http://snap.stanford.edu/data/as-733.html
 - reddit hyperlink network: Downloadable from http://snap.stanford.edu/data/soc-RedditHyperlinks.html
-- elliptic: A preprocessed version of https://www.kaggle.com/ellipticco/elliptic-data-set is provided in the 'data' folder. Untar the file for use.
+- elliptic: A preprocessed version of https://www.kaggle.com/ellipticco/elliptic-data-set is provided in the following link: https://ibm.box.com/s/j04m8lwoqktjixke2gj7lgllrvvdidme. Untar the file in the 'data' folder for use.
 
 For downloaded data sets please place them in the 'data' folder.
 
@@ -48,7 +48,7 @@ Start the container
 sudo docker run -ti  --gpus all -v $(pwd):/evolveGCN  gcn_env:latest
 ```
 
-This will start a bash session in the container. 
+This will start a bash session in the container.
 
 ## Usage
 
