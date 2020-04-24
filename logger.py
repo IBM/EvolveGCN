@@ -9,9 +9,18 @@ import time
 from sklearn.metrics import average_precision_score
 from scipy.sparse import coo_matrix
 import numpy as np
+import os
+import errno
 
+def create_file_deep(filename):
+  if not os.path.exists(os.path.dirname(filename)):
+      try:
+          os.makedirs(os.path.dirname(filename))
+      except OSError as exc: # Guard against race condition
+          if exc.errno != errno.EEXIST:
+              raise
 
-
+  with open(filename, "w") as f: pass
 
 class Logger():
     def __init__(self, args, num_classes, minibatch_log_interval=10):
@@ -22,6 +31,7 @@ class Logger():
 
             if args.use_logfile:
                 print ("Log file:", self.log_name)
+                create_file_deep(self.log_name)
                 logging.basicConfig(filename=self.log_name, level=logging.INFO)
             else:
                 print ("Log: STDOUT")
