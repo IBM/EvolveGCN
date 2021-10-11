@@ -23,7 +23,7 @@ dev_proportion: 0.1
 
 num_epochs: 500 #number of passes though the data
 steps_accum_gradients: 1
-learning_rate: 	0.005
+learning_rate: 0.005
 learning_rate_min: 0.005
 learning_rate_max: 0.05
 negative_mult_training: 100
